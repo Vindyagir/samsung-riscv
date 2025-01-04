@@ -39,18 +39,4 @@ This workshop is part of the **Digital India RISC-V Mission 2025**, powered by *
 
 ---
 
-## How to Register
-- **Scan the QR Code** in the flyer to register for free.
-- Seats are limited, so register early!
 
----
-
-## Contact Information
-- **Nuhusha K L**: +91 94830 87190
-- **Guruprasad**: +91 78927 73413
-
----
-
-## Learning Partners
-- Agastya International Foundation
-- VLSI System Design
