@@ -39,6 +39,7 @@ This workshop is part of the **Digital India RISC-V Mission 2025**, powered by *
 
 ---
 ##Task 1
+<>
 <summary>
 - To create a GitHub repository named "samsung-riscv" and watch the provided videos to understand the program flow.
 -  Install the RISC-V toolchain using the VDI link mentioned in the shared PDF 
@@ -49,5 +50,5 @@ This workshop is part of the **Digital India RISC-V Mission 2025**, powered by *
  ![openlab1](https://github.com/user-attachments/assets/29ba5d27-fb3a-4a82-a04d-8598aec75501)
 - ### riskv_based_lab_task
 ![riscv_based_1](https://github.com/user-attachments/assets/e8f536b0-9f15-4fba-adb5-e01c45f07332)
-
+</summary>
 
