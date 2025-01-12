@@ -63,5 +63,33 @@ This workshop is part of the **Digital India RISC-V Mission 2025**, powered by *
 <br>
 -Spike is a RISC-V architecture simulator that allows for the simulation of RISC-V programs and software stacks.
 
--The objective is to execute the `fact.c` code using both the `GCC compiler` and the `RISC-V  compiler
-, ensuring that both produce identical outputs in the terminal. To compile the code with the GCC compiler, use the following command
+-The objective is to execute the `fact.c` code using both the `GCC compiler` and the `RISC-V  compiler`
+, ensuring that both produce identical outputs in the terminal. To compile the code with the GCC compiler, use the following command.
+- step 1:Compile the c code using `gcc copmiler` 
+ ```Step1
+$ gcc fact.c
+$ ./a.out
+```
+- step 2: Compile the code with `riscv compiler`
+ ![c_program](https://github.com/user-attachments/assets/6040b90d-d5fc-4973-96fb-648fdd01fcdf)
+- using -O1 instruction.
+```step2
+$ riscv64-unknown-elf-gcc -O1 -mabi=lp64 -march=rv64i -o fact.o fact.c
+```
+![O1](https://github.com/user-attachments/assets/fa363937-08de-49b5-afbe-70d711bc10a9)
+- using -Ofast instruction.
+```
+$ riscv64-unknown-elf-gcc -Ofast -mabi=lp64 -march=rv64i -o fact.o fact.c
+```
+![Ofast](https://github.com/user-attachments/assets/27731e46-5aef-4557-8c82-d0481f38eda5)
+
+- Open the Objdump of code by using the below command
+```bash
+$ riscv64-unknown-elf-objdump -d sum_1ton.o | less  
+```
+- Open the debugger in another terminal by using the below command
+```bash
+$  spike -d pk fact.o 
+```
+- The rest steps are shown in the following snapshot.
+![spike](https://github.com/user-attachments/assets/161d1bdd-5b8a-4ea6-8907-42a2746c3d38)
