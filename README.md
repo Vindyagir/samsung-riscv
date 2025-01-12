@@ -59,7 +59,7 @@ This workshop is part of the **Digital India RISC-V Mission 2025**, powered by *
 </details>
 
 <details>
-<summary> Task 1:Spike Simulation  </summary>
+<summary> Task 2:Spike Simulation  </summary>
 <br>
 -Spike is a RISC-V architecture simulator that allows for the simulation of RISC-V programs and software stacks.
 
