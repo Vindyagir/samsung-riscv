@@ -52,7 +52,16 @@ This workshop is part of the **Digital India RISC-V Mission 2025**, powered by *
 - simple c program
  ![c based lab](https://github.com/user-attachments/assets/05ff9317-f20d-498c-b46d-a5d2cb5bc973)
 
-- disassembly code ![c_to_Riscv_simpleprg](https://github.com/user-attachments/assets/ea20198d-e420-4bde-b301-bdc1081e5f1f)
-- ![riscv_based_1](https://github.com/user-attachments/assets/e8f536b0-9f15-4fba-adb5-e01c45f07332)
+- disassembly code
+-![c_to_Riscv_simpleprg](https://github.com/user-attachments/assets/ea20198d-e420-4bde-b301-bdc1081e5f1f)
+
+-![riscv_based_2](https://github.com/user-attachments/assets/309f6139-a1f5-4f7d-9f7e-f0278751271e)
 </details>
 
+<details>
+<summary> Task 1:Spike Simulation  </summary>
+<br>
+-Spike is a RISC-V architecture simulator that allows for the simulation of RISC-V programs and software stacks.
+
+-The objective is to execute the `fact.c` code using both the `GCC compiler` and the `RISC-V  compiler
+, ensuring that both produce identical outputs in the terminal. To compile the code with the GCC compiler, use the following command
