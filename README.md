@@ -40,7 +40,7 @@ This workshop is part of the **Digital India RISC-V Mission 2025**, powered by *
 ---
 ## Tasks
 <details>
-<summary> Task 1:To perform C_Based and RISC-V lab   </summary>
+<summary> Task 1:To perform C_Based and RISC-V lab  </summary>
 <br> 
 
 - To create a GitHub repository named "samsung-riscv" and watch the provided videos to understand the program flow.
