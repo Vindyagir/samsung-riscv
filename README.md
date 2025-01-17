@@ -318,3 +318,42 @@ bnez a5, 101ec
 ---
 #### 32-bit Instruction Encoding:0_000000_00000_01111_001_1100_0_1100011
 ----
+- 9
+```
+addiw sp,sp, -2
+```
+> The RISC-V instruction format for `ADDIW` is **I-type**,which is used for instructions that add an immediate value to a resistor .
+> The layout for an **I-type** instruction is as follows:
+> | imm[11:0] | rs1 | func3 | rd | opcode |
+> |-----------|-----|-------|----|--------|
+> | 12 bits | 5 bits  | 3 bits | 5 bits | 7 bits |
+>
+> opcode for ADDI : 0010011   
+> imm[11:0] (12 bits) -48 : 1111111111110  
+> rd :  01100   
+> rs1 : 10101    
+> funct3 for ADDI: 000   
+
+ ---
+#### 32-bit Instruction Encoding: 111111111110_10101_000_01100_0110011
+---
+- 9
+```
+ld ra, 8(sp)
+```
+> The RISC-V instruction format for `LD` is **I-type**,The ld (Load Doubleword) instruction loads a 64-bit (doubleword) value from memory into a destination register.
+The effective memory address is calculated as the value in the base register `(sp)` plus the immediate offset `(8)`.
+> The layout for an **I-type** instruction is as follows:
+> | imm[11:0] | rs1 | func3 | rd | opcode |
+> |-----------|-----|-------|----|--------|
+> | 12 bits | 5 bits  | 3 bits | 5 bits | 7 bits |
+>
+> opcode for ADDI : 0000011   
+> imm[11:0] (12 bits) -48 : 000000001000 
+> rd :  00001   
+> rs1 : 00010 (register `sp`,which is x2)   
+> funct3 for ADDI: 011  
+
+ ---
+#### 32-bit Instruction Encoding: 000000010000_00010_011_00001_0000011
+---
