@@ -443,3 +443,22 @@ sw a4, 32(sp)
  ---
  #### 32-bit Instruction Encoding: 0000100_00010_00010_010_10000_0100011
 ---
+- 15
+ ```
+auipc a5, 0xffff0
+```
+> The RISC-V instruction format for `AUIPC` is **U-type**,which is used for computing the sum of program counter (PC) and a 20-bit immediate value,and stores in resistor a5. 
+> The layout for an **U-type** instruction is as follows:
+> | imm[31:12] | rd | opcode |
+>|------------|----|--------|
+>| 20 bits | 5 bits | 7 bits |
+>
+> opcode for AUPIC :0010111
+> rd (5 bits) `a5`(register x15) : 01111  
+> imm[31:12] (20 bits) :1111111111111111   
+> rs1 : N/A     
+> rs2 : N/A  
+> func3 for SD: N/A  
+
+---
+#### 32-bit Instruction Encoding:1111111111111111_01111_0010111
