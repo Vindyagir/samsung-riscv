@@ -357,3 +357,89 @@ The effective memory address is calculated as the value in the base register `(s
  ---
 #### 32-bit Instruction Encoding: 000000010000_00010_011_00001_0000011
 ---
+- 10
+```
+blt a5,s0,28310
+```
+> The RISC-V instruction format for `BLT` is **B-type**,Tblt stands for "Branch if Less Than". This instruction performs a conditional branch based on whether the value in register `a5` is less than the value in register so.
+> The layout for an **B-type** instruction is as follows:
+> | imm [12] | imm[10:5] | rs2 |rs1 | func3 | imm[4:1] | imm[11] | opcode |
+> |----------|-----------|-----|----|-------|----------|--------|--------|
+> | 1 bit | 6 bits  | 5 bits |5 bits | 3 bits | 4 bits | 1bits | 7 bits |
+>
+> opcode for BEQZ : 1100011  
+> imm[12] (1 bit) :0  
+> imm[10:5] (6 bits) :000001  
+> rs1 : (xa5) 01111   
+> rs2 : (xs0) 01000  
+> func3 for BEQ:100
+> imm[4:1] (5 bits) : 01111
+> imm[11] (1 bit):0
+---
+#### 32-bit Instruction Encoding:0_000001_01000_01111_000_01111_0_1100011
+
+ ----
+ - 11
+ ```
+bge s1,a5,100f0
+```
+> The RISC-V instruction format for `BGE` is **B-type**,which is used for instructions that add an immediate value to a resistor .
+> The layout for an **B-type** instruction is as follows: 
+> | imm [12] | imm[10:5] | rs2 |rs1 | func3 | imm[4:1] | imm[11] | opcode |
+> |----------|-----------|-----|----|-------|----------|--------|--------|
+> | 1 bit | 6 bits  | 5 bits |5 bits | 3 bits | 4 bits | 1bits | 7 bits |
+>
+> opcode for BEQZ : 1100011  
+> imm[12] (1 bit) :0  
+> imm[10:5] (6 bits) :001111  
+> rs1 : (x15) 01001   
+> rs2 : (x0) 01111  
+> func3 :101
+> imm[4:1] (5 bits) : 1000
+> imm[11] (1 bit):0
+---
+#### 32-bit Instruction Encoding:0_001111_01111_01001_101_1000_0_1100011
+
+ ----
+  - 12
+ ```
+bgeu t1,a2,103ac
+```
+> The RISC-V instruction format for `BGEU` is **B-type**,which is used for instructions that add an immediate value to a resistor .
+> The layout for an **B-type** instruction is as follows: 
+> | imm [12] | imm[10:5] | rs2 |rs1 | func3 | imm[4:1] | imm[11] | opcode |
+> |----------|-----------|-----|----|-------|----------|--------|--------|
+> | 1 bit | 6 bits  | 5 bits |5 bits | 3 bits | 4 bits | 1bits | 7 bits |
+>
+> opcode for BEQZ : 1100011  
+> imm[12] (1 bit) :0  
+> imm[10:5] (6 bits) :001110  
+> rs1 : (x15) 00110   
+> rs2 : (x0) 01100 
+> func3 :111
+> imm[4:1] (5 bits) : 1011
+> imm[11] (1 bit):0
+---
+#### 32-bit Instruction Encoding:0_001110_01100_111_00110_0_1100011
+
+ ----
+ - 14
+ ```
+sw a4, 32(sp)
+```
+> The RISC-V instruction format for `SW` is **S-type**,is a store word instruction in the **RISC-V ISA**. It stores the contents of the register `a4` into memory at an address computed as the sum of `sp` (stack pointer) and the immediate offset `32`.
+> The layout for an **S-type** instruction is as follows:
+> | imm[11:5] | rs2 |rs1 | func3 | imm[4:0] | opcode |
+> |-----------|-----|-----|------|----------|--------|
+> | 7 bits | 5 bits  | 5 bits | 3 bits | 5 bits | 7 bits |
+>
+> opcode for SD : 0100011   
+> imm[11:5] (7 bits for the upper part of the immediate) :0000100   
+> imm[4:0] (5 bits for the lower part of the immediate) :  10000  
+> rs1 : 00010 (register `sp`,which is x2)    
+> rs2 : 01110
+> func3 for SD: 010    
+
+ ---
+ #### 32-bit Instruction Encoding: 0000100_00010_00010_010_10000_0100011
+---
