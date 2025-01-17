@@ -93,3 +93,67 @@ $  spike -d pk fact.o
 ```
 - The rest steps are shown in the following snapshot.
 ![spike](https://github.com/user-attachments/assets/161d1bdd-5b8a-4ea6-8907-42a2746c3d38)
+</details>
+<details>
+<summary> Task 3: RISC-V instructions</summary>
+# RISC-V Instruction Analysis
+
+---
+
+```
+lui a0,0x2b
+```
+> The RISC-V instruction format for `LUI` is **U-type** ,which is used to load an immediate value into the upper 20 bits of register 
+> The layout for a **U-type** instruction is as follows
+>| imm[31:12] | rd | opcode |
+>|------------|----|--------|
+>| 20 bits | 5 bits | 7 bits |
+>
+> opcode for LUI : 0110111   
+> imm[31:12] (20 bits) : 00000010101100000000  
+> rd : a0 = 01010   
+> rs1 : this instruction doesn't use rs1  
+> rs2 : this instruction doesn't use rs2  
+> funct3 : N/A  
+> funct7 : N/A
+
+---
+
+### 32-bit Instruction Encoding:00000010101100000000_01010_0110111
+---
+```
+addi sp,sp, -48
+```
+> The RISC-V instruction format for `ADDI` is **I-type**,which is used for instructions that add an immediate value to a resistor .
+> The layout for an **I-type** instruction is as follows:
+> | imm[11:0] | rs1 | func3 | rd | opcode |
+> |-----------|-----|-------|----|--------|
+> | 12 bits | 5 bits  | 3 bits | 5 bits | 7 bits |
+>
+> opcode for ADDI : 0010011   
+> imm[11:0] (12 bits) -48 : 1111111111100  
+> rd :  00010   
+> rs1 : 00010 (register `sp`,which is x2)   
+> funct3 for ADDI: 000   
+
+ ---
+
+### 32-bit Instruction Encoding: 1111111111000000_00010_000_00010_0010011
+---
+```
+sd ra, 40(sp)
+```
+> The RISC-V instruction format for `SD` is **S-type**,which is used for instructions that add an immediate value to a resistor .
+> The layout for an **I-type** instruction is as follows:
+> | imm[11:5] | rs2 |rs1 | func3 | imm[4:0] | opcode |
+> |-----------|-----|-----|------|----------|--------|
+> | 7 bits | 5 bits  | 5 bits | 3 bits | 5 bits | 7 bits |
+>
+> opcode for SD : 0100011   
+> imm[11:5] (7 bits for the upper part of the immediate) :0000100 
+> rd :  00010   
+> rs1 : 00010 (register `sp`,which is x2)
+> rs2 : 00010 (register `sp`,which is x2) 
+> funct3 for ADDI: 000   
+
+ ---
