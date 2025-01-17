@@ -96,10 +96,66 @@ $  spike -d pk fact.o
 </details>
 <details>
 <summary> Task 3: RISC-V instructions</summary>
-# RISC-V Instruction Analysis
+
+  ## RISC-V Instruction Types
+
+### R-Type:
+
+- Purpose: Used for register-to-register operations (e.g., addition, subtraction, bitwise operations).
+> Fields: The layout for a **U-type** instruction is as follows
+>| func7 | rs2 | rs1 | func3 | rd | opcode |
+>|-------|----|----|-------|-----|-------|
+>| 7 bits | 5 bits |5 bits |3 bits |5 bits | 7 bits |
+- Example: add rd, rs1, rs2.
+---
+### I-Type:
+
+- Purpose: Used for immediate arithmetic operations, loads, and JALR.
+> Fields: The layout for an **I-type** instruction is as follows:
+> | imm[11:0] | rs1 | func3 | rd | opcode |
+> |-----------|-----|-------|----|--------|
+> | 12 bits | 5 bits  | 3 bits | 5 bits | 7 bits |
+- Example: addi rd, rs1, imm or ld rd, offset(rs1).
+---
+### S-Type:
+
+- Purpose: Used for store instructions (storing register values to memory).
+> Fields: The layout for an **S-type** instruction is as follows:
+> | imm[11:5] | rs2 |rs1 | func3 | imm[4:0] | opcode |
+> |-----------|-----|-----|------|----------|--------|
+> | 7 bits | 5 bits  | 5 bits | 3 bits | 5 bits | 7 bits |
+- Example: sb rs2, offset(rs1).
+---
+### B-Type:
+
+- Purpose: Used for branch instructions (conditional jumps).
+> Fields: The layout for an **B-type** instruction is as follows:
+> | imm [12] | imm[10:5] | rs2 |rs1 | func3 | imm[4:1] | imm[11] | opcode |
+> |----------|-----------|-----|----|-------|----------|--------|--------|
+> | 1 bit | 6 bits  | 5 bits |5 bits | 3 bits | 4 bits | 1bits | 7 bits |
+- Example: beq rs1, rs2, offset.
+---
+### U-Type:
+
+- Purpose: Used for loading upper immediate values into a register.
+> Fields:The layout for an **U-type** instruction is as follows:
+> | imm[31:12] | rd | opcode |
+>|------------|----|--------|
+>| 20 bits | 5 bits | 7 bits |
+- Example: auipc rd, imm.
+---
+ ### J-Type:
+
+- Purpose: Used for jump instructions (e.g., jal).
+> Fields:The layout for an **J-type** instruction is as follows:
+> | imm [20] | imm[10:1] | imm[11] | imm[19:12] | rd | opcode |
+> |----------|-----------|---------|------------|---|----------|
+> | 1 bit | 11 bits  | 1 bit |7 bits | 5 bits | 7 bits |
+- Example: jal rd, offset.
 
 ---
-
+### Here is the 15 unique RISCV instructions 
+- 1 
 ```
 lui a0,0x2b
 ```
@@ -118,9 +174,9 @@ lui a0,0x2b
 > funct7 : N/A
 
 ---
-
-### 32-bit Instruction Encoding:00000010101100000000_01010_0110111
+#### 32-bit Instruction Encoding:00000010101100000000_01010_0110111
 ---
+- 2 
 ```
 addi sp,sp, -48
 ```
@@ -137,23 +193,128 @@ addi sp,sp, -48
 > funct3 for ADDI: 000   
 
  ---
-
-### 32-bit Instruction Encoding: 1111111111000000_00010_000_00010_0010011
+#### 32-bit Instruction Encoding: 1111111111000000_00010_000_00010_0010011
 ---
+-  3 
 ```
 sd ra, 40(sp)
 ```
 > The RISC-V instruction format for `SD` is **S-type**,which is used for instructions that add an immediate value to a resistor .
-> The layout for an **I-type** instruction is as follows:
+> The layout for an **S-type** instruction is as follows:
 > | imm[11:5] | rs2 |rs1 | func3 | imm[4:0] | opcode |
 > |-----------|-----|-----|------|----------|--------|
 > | 7 bits | 5 bits  | 5 bits | 3 bits | 5 bits | 7 bits |
 >
 > opcode for SD : 0100011   
-> imm[11:5] (7 bits for the upper part of the immediate) :0000100 
-> rd :  00010   
-> rs1 : 00010 (register `sp`,which is x2)
-> rs2 : 00010 (register `sp`,which is x2) 
-> funct3 for ADDI: 000   
+> imm[11:5] (7 bits for the upper part of the immediate) :0000100   
+> imm[4:0] (5 bits for the lower part of the immediate) :  00000  
+> rs1 : 00010 (register `sp`,which is x2)    
+> rs2 : 00001 (register `x1` binary representation of 1)  
+> func3 for SD: 011    
 
  ---
+ #### 32-bit Instruction Encoding: 0000100_00001_00010_011_00000_0100011
+---
+ -  4 
+ ```
+auipc a5, 0xffff0
+```
+> The RISC-V instruction format for `AUIPC` is **U-type**,which is used for computing the sum of program counter (PC) and a 20-bit immediate value,and stores in resistor a5. 
+> The layout for an **U-type** instruction is as follows:
+> | imm[31:12] | rd | opcode |
+>|------------|----|--------|
+>| 20 bits | 5 bits | 7 bits |
+>
+> opcode for AUPIC :0010111
+> rd (5 bits) `a5`(register x15) : 01111  
+> imm[31:12] (20 bits) :1111111111111111   
+> rs1 : N/A     
+> rs2 : N/A  
+> func3 for SD: N/A  
+
+---
+#### 32-bit Instruction Encoding:1111111111111111_01111_0010111
+
+---
+ -  5 
+```
+beqz a5, 10158
+```
+> The RISC-V instruction format for `BEQZ` is **B-type**,this instruction checks if the value in register `a5` is zero .If it is , the program branches to the offset `0x10158 `
+> The layout for an **B-type** instruction is as follows:
+> | imm [12] | imm[10:5] | rs2 |rs1 | func3 | imm[4:1] | imm[11] | opcode |
+> |----------|-----------|-----|----|-------|----------|--------|--------|
+> | 1 bit | 6 bits  | 5 bits |5 bits | 3 bits | 4 bits | 1bits | 7 bits |
+>
+> opcode for BEQZ : 1100011  
+> imm[12] (1 bit) :0  
+> imm[10:5] (6 bits) :000001  
+> rs1 : (x15) 01111   
+> rs2 : (x0) 00000  
+> func3 for BEQ:000
+> imm[4:1] (5 bits) : 01111
+> imm[11] (1 bit):0
+---
+#### 32-bit Instruction Encoding:0_000001_00000_01111_000_01111_0_1100011
+
+ ----
+ - 6 
+```
+jalr zero, 0
+```
+> The RISC-V instruction format for `JALR` is **J-type**The instruction "jalr zero, 0" is an assembly language instruction in the RISC-V architecture. It stands for "Jump and Link Register.
+> The layout for an **J-type** instruction is as follows:
+> | imm [20] | imm[10:1] | imm[11] | imm[19:12] | rd | opcode |
+> |----------|-----------|---------|------------|---|----------|
+> | 1 bit | 11 bits  | 1 bit |7 bits | 5 bits | 7 bits |
+>
+> opcode for JALR : 1100111  
+> imm[20] (1 bit) :0
+> imm[10:1] (7 bits) :000001
+> imm[11] (1 bit) :0
+> imm[19:12] (7 bits) :000001
+> rd : (x15) 01111   
+> 
+---
+#### 32-bit Instruction Encoding:0_000001_0_000001_01111_1100111
+ ----
+ - 7
+```
+sb a5, 1944(gp)
+```
+> The RISC-V instruction format for `SB` is **S-type**,it means to store the byte value contained in the register `a5` into the memory address calculated by adding the immediate value `1944` to the address contained in the register `gp`
+> The layout for an **S-type** instruction is as follows:
+> | imm[11:5] | rs2 |rs1 | func3 | imm[4:0] | opcode |
+> |-----------|-----|-----|------|----------|--------|
+> | 7 bits | 5 bits  | 5 bits | 3 bits | 5 bits | 7 bits |
+>
+> opcode for SB : 0100011   
+> imm[11:5] (6 bits of upper part of 1944) :0111100  
+> imm[4:0] (5 bits of lower part of 1944) :11000   
+> rs1 (register ,x3) gp : 01111    
+> rs2 (register ,x15) a5 : 00000   
+> func3 for SB:000 
+---
+#### 32-bit Instruction Encoding:0111100_00000_01111_000_11000_0100011
+----
+ - 8
+```
+bnez a5, 101ec
+```
+> The RISC-V instruction format for `BNEZ` is **B-type** ,this instruction checks if the value in the register `a5` is not zero.If the condition is true, it branches to the target address `101ec`. The branch target is calculated relative to the program counter `(PC)`.
+> The layout for an **B-type** instruction is as follows:
+> | imm [12] | imm[10:5] | rs2 |rs1 | func3 | imm[4:1] | imm[11] | opcode |
+> |----------|-----------|-----|----|-------|----------|--------|--------|
+> | 1 bit | 6 bits  | 5 bits |5 bits | 3 bits | 4 bits | 1bits | 7 bits |
+> 
+> opcode for SB : 1100011
+> imm[12]  : 0
+> imm[10:5] (6 bits) :000000
+> imm[4:1] (4 bits) :1100
+> imm[0]:0 
+> rs1 (register ,x15) a5: 01111    
+> rs2 (register ,x0) x0 : 00000   
+> func3 for BNEZ:001
+---
+#### 32-bit Instruction Encoding:0_000000_00000_01111_001_1100_0_1100011
+----
