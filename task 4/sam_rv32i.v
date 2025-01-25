@@ -17,7 +17,8 @@ ID_EX_A,
 ID_EX_B,
 ID_EX_RD,
 ID_EX_IMMEDIATE,
-ID_EX_IR, ID_EX_NPC;
+ID_EX_IR, 
+ID_EX_NPC;
 
 // EXECUTION STAGE
 reg[31:0] 
@@ -113,7 +114,7 @@ end
 always @(posedge clk) begin
     ID_EX_A <= REG[IF_ID_IR[19:15]];
     ID_EX_B <= REG[IF_ID_IR[24:20]];
-    ID_EX_RD <= REG[IF_ID_IR[11:7]];
+    ID_EX_RD <= IF_ID_IR[11:7];
     ID_EX_IR <= IF_ID_IR;
     ID_EX_IMMEDIATE <= {{20{IF_ID_IR[31]}}, IF_ID_IR[31:20]};
     ID_EX_NPC <= IF_ID_NPC;
@@ -125,47 +126,37 @@ always @(posedge clk) begin
 
     case (ID_EX_IR[6:0])
         AR_TYPE: begin
-            if (ID_EX_IR[31:25] == 7'd1) begin
-                case (ID_EX_IR[14:12])
-                    ADD: EX_MEM_ALUOUT <= ID_EX_A + ID_EX_B;
-                    SUB: EX_MEM_ALUOUT <= ID_EX_A - ID_EX_B;
-                    AND: EX_MEM_ALUOUT <= ID_EX_A & ID_EX_B;
-                    OR:  EX_MEM_ALUOUT <= ID_EX_A | ID_EX_B;
-                    XOR: EX_MEM_ALUOUT <= ID_EX_A ^ ID_EX_B;
-                    SLT: EX_MEM_ALUOUT <= (ID_EX_A < ID_EX_B) ? 32'd1 : 32'd0;
-                endcase
-            end else begin
-                case (ID_EX_IR[14:12])
-                    ADDI: EX_MEM_ALUOUT <= ID_EX_A + ID_EX_IMMEDIATE;
-                    SUBI: EX_MEM_ALUOUT <= ID_EX_A - ID_EX_IMMEDIATE;
-                    ANDI: EX_MEM_ALUOUT <= ID_EX_A & ID_EX_IMMEDIATE;
-                    ORI:  EX_MEM_ALUOUT <= ID_EX_A | ID_EX_IMMEDIATE;
-                    XORI: EX_MEM_ALUOUT <= ID_EX_A ^ ID_EX_IMMEDIATE;
-                endcase
-            end
+            case (ID_EX_IR[14:12])
+                ADD: EX_MEM_ALUOUT <= ID_EX_A + ID_EX_B;
+                SUB: EX_MEM_ALUOUT <= ID_EX_A - ID_EX_B;
+                AND: EX_MEM_ALUOUT <= ID_EX_A & ID_EX_B;
+                OR:  EX_MEM_ALUOUT <= ID_EX_A | ID_EX_B;
+                XOR: EX_MEM_ALUOUT <= ID_EX_A ^ ID_EX_B;
+                SLT: EX_MEM_ALUOUT <= (ID_EX_A < ID_EX_B) ? 32'd1 : 32'd0;
+            endcase
         end
         M_TYPE: begin
             case (ID_EX_IR[14:12])
                 LW:  EX_MEM_ALUOUT <= ID_EX_A + ID_EX_IMMEDIATE;
-                SW:  EX_MEM_ALUOUT <= ID_EX_IR[24:20] + ID_EX_IR[19:15];
+                SW:  EX_MEM_ALUOUT <= ID_EX_A + ID_EX_IMMEDIATE;
             endcase
         end
         BR_TYPE: begin
             case (ID_EX_IR[14:12])
                 BEQ: begin
                     EX_MEM_ALUOUT <= ID_EX_NPC + ID_EX_IMMEDIATE;
-                    BR_EN <= (ID_EX_IR[19:15] == ID_EX_IR[11:7]) ? 1'd1 : 1'd0;
+                    BR_EN <= (ID_EX_A == ID_EX_B) ? 1'd1 : 1'd0;
                 end
                 BNE: begin
                     EX_MEM_ALUOUT <= ID_EX_NPC + ID_EX_IMMEDIATE;
-                    BR_EN <= (ID_EX_IR[19:15] != ID_EX_IR[11:7]) ? 1'd1 : 1'd0;
+                    BR_EN <= (ID_EX_A != ID_EX_B) ? 1'd1 : 1'd0;
                 end
             endcase
         end
         SH_TYPE: begin
             case (ID_EX_IR[14:12])
-                SLL: EX_MEM_ALUOUT <= ID_EX_A << ID_EX_B;
-                SRL: EX_MEM_ALUOUT <= ID_EX_A >> ID_EX_B;
+                SLL: EX_MEM_ALUOUT <= ID_EX_A << ID_EX_B[4:0];
+                SRL: EX_MEM_ALUOUT <= ID_EX_A >> ID_EX_B[4:0];
             endcase
         end
     endcase
@@ -182,7 +173,7 @@ always @(posedge clk) begin
         M_TYPE: begin
             case (EX_MEM_IR[14:12])
                 LW: MEM_WB_LDM <= DM[EX_MEM_ALUOUT];
-                SW: DM[EX_MEM_ALUOUT] <= REG[EX_MEM_IR[11:7]];
+                SW: DM[EX_MEM_ALUOUT] <= REG[EX_MEM_IR[24:20]];
             endcase
         end
     endcase
@@ -211,3 +202,4 @@ always @(posedge clk) begin
 end
 
 endmodule
+
