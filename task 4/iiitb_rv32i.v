@@ -111,24 +111,26 @@ always @(posedge clk or posedge RN) begin
     end
 end
 
-always @(posedge RN) begin
-    //NPC<= 32'd0;
-MEM[0] <= 32'h02208300;         // add r6,r1,r2.(i1)
-MEM[1] <= 32'h02209380;         //sub r7,r1,r2.(i2)
-MEM[2] <= 32'h0230a400;         //and r8,r1,r3.(i3)
-MEM[3] <= 32'h02513480;         //or r9,r2,r5.(i4)
-MEM[4] <= 32'h0240c500;         //xor r10,r1,r4.(i5)
-MEM[5] <= 32'h02415580;         //slt r11,r2,r4.(i6)
-MEM[6] <= 32'h00520600;         //addi r12,r4,5.(i7)
-MEM[7] <= 32'h00209181;         //sw r3,r1,2.(i8)
-MEM[8] <= 32'h00208681;         //lw r13,r1,2.(i9)
-MEM[9] <= 32'h00f00002;         //beq r0,r0,15.(i10)
-MEM[25] <= 32'h00210700;         //add r14,r2,r2.(i11)
-//MEM[27] <= 32'h01409002;         //bne r0,r1,20.(i12)
-//MEM[49] <= 32'h00520601;         //addi r12,r4,5.(i13)
-//MEM[50] <= 32'h00208783;         //sll r15,r1,r2(2).(i14)
-//MEM[51] <= 32'h00271803;         //srl r16,r14,r2(2).(i15) */
-
+always @(posedge RN) begin  
+    NPC <= 32'd0;  
+    MEM[10] <= 32'h00720233;         // add r4, r4, r7  (Add r4 and r7 and store in r4)  
+    MEM[11] <= 32'h00308113;         // addi r2, r1, 3  (Add immediate 3 to r1 and store in r2)  
+    MEM[12] <= 32'h00412303;         // lw r6, 4(r2)    (Load word from memory at address r2+4 into r6)  
+    MEM[13] <= 32'h00c182b3;         // sub r5, r3, r12 (Subtract r12 from r3 and store in r5)  
+    MEM[14] <= 32'h01000263;         // beq r0, r0, 16  (Unconditional branch to instruction at offset 16)  
+    MEM[15] <= 32'h00130313;         // slli r6, r6, 1  (Shift left logical r6 by 1)  
+    MEM[16] <= 32'h0020a423;         // sw r2, 4(r1)    (Store word from r2 into memory at r1+4)  
+    MEM[17] <= 32'hfe5198e3;         // bne r2, r3, -6  (Branch if r2 != r3 to offset -6)  
+    MEM[18] <= 32'h00e22423;         // sd r14, 8(r4)   (Store doubleword r14 at address r4+8)  
+    MEM[19] <= 32'hff810113;         // addi sp, sp, -8 (Adjust stack pointer by -8)  
+    MEM[20] <= 32'h00110133;         // or r2, r2, r1   (Logical OR between r2 and r1, result in r2)  
+    MEM[21] <= 32'h40308133;         // neg r2, r1      (Negate r1 and store in r2)  
+    MEM[22] <= 32'h00218023;         // sb r2, 0(r3)    (Store byte from r2 at address r3+0)  
+    MEM[23] <= 32'h0062a023;         // sh r6, 8(r2)    (Store halfword from r6 at address r2+8)  
+    MEM[24] <= 32'h0082a423;         // sw r8, 12(r2)   (Store word from r8 at address r2+12)  
+    MEM[26] <= 32'h00a100b3;         // slt r1, r2, r10 (Set r1 to 1 if r2 < r10, otherwise set to 0)  
+    MEM[28] <= 32'h00210533;         // xor r10, r2, r2 (Exclusive OR r2 with r2, result in r10)  
+end
 //for(k=0;k<=31;k++)
 //REG[k]<=k;
 /*REG[0] <= 32'h00000000;
