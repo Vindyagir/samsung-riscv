@@ -1,10 +1,3 @@
-module iiitb_rv32i_tb;
-
-reg clk,RN;
-wire [31:0]WB_OUT,NPC;
-
-iiitb_rv32i rv32(clk,RN,NPC,WB_OUT);
-
 `timescale 1ns/1ps
 
 module sam_rv32i_tb;
