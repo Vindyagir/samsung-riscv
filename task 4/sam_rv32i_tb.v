@@ -42,8 +42,8 @@ module sam_rv32i_tb;
 
     // Dump waveforms for debugging
     initial begin
-      $dumpfile("tb_sam_rv32i.vcd");  // VCD file for waveform dump
-      $dumpvars(0, tb_sam_rv32i);     // Dump all variables in the testbench
+        $dumpfile("sam_rv32i_tb.vcd");  // VCD file for waveform dump
+        $dumpvars(0, sam_rv32i_tb);     // Dump all variables in the testbench
     end
 
 endmodule
