@@ -1,4 +1,4 @@
-module sam_rv32i(clk, RN, NPC, WB_OUT);
+module sam_rv32i_new(clk, RN, NPC, WB_OUT);
 input clk;
 input RN;
 integer k;
@@ -75,12 +75,12 @@ always @(posedge clk or posedge RN) begin
         NPC <= 32'd0;
         BR_EN <= 1'd0; 
         REG[0] <= 32'h00000000;
-        REG[1] <= 32'd10;
-        REG[2] <= 32'd20;
-        REG[3] <= 32'd30;
-        REG[4] <= 32'd40;
-        REG[5] <= 32'd50;
-        REG[6] <= 32'd60;
+        REG[1] <= 32'd5;
+        REG[2] <= 32'd15;
+        REG[3] <= 32'd25;
+        REG[4] <= 32'd35;
+        REG[5] <= 32'd45;
+        REG[6] <= 32'd55;
     end else begin
         NPC <= BR_EN ? EX_MEM_ALUOUT : NPC + 32'd1;
         BR_EN <= 1'd0;
@@ -91,16 +91,16 @@ end
 
 always @(posedge RN) begin  
     NPC <= 32'd0;  
-    MEM[10] <= 32'h00b202b3;         // add r5, r4, r11 (Add r4 and r11, store in r5)
-    MEM[11] <= 32'h00410113;         // addi r2, r2, 4  (Add immediate 4 to r2, store in r2)
-    MEM[12] <= 32'h00812203;         // lw r4, 8(r2)    (Load word from memory at r2+8 into r4)
+    MEM[10] <= 32'h004202b3;         // add r5, r4, r2 (Add r4 and r2, store in r5)
+    MEM[11] <= 32'h00310113;         // addi r2, r2, 3  (Add immediate 3 to r2, store in r2)
+    MEM[12] <= 32'h00c12203;         // lw r4, 12(r2)   (Load word from memory at r2+12 into r4)
     MEM[13] <= 32'h00f282b3;         // sub r5, r5, r15 (Subtract r15 from r5, store in r5)
-    MEM[14] <= 32'h01400263;         // beq r0, r0, 20  (Unconditional branch to instruction at offset 20)
+    MEM[14] <= 32'h01800263;         // beq r0, r0, 24  (Unconditional branch to instruction at offset 24)
     MEM[15] <= 32'h00330333;         // slli r6, r6, 3  (Shift left logical r6 by 3)
-    MEM[16] <= 32'h0060a423;         // sw r6, 4(r1)    (Store word from r6 into memory at r1+4)
+    MEM[16] <= 32'h0060a423;         // sw r6, 8(r1)    (Store word from r6 into memory at r1+8)
     MEM[17] <= 32'hfe2198e3;         // bne r2, r4, -8  (Branch if r2 != r4 to offset -8)
     MEM[18] <= 32'h01222423;         // sd r18, 8(r4)   (Store doubleword r18 at r4+8)
-    MEM[19] <= 32'hfff10113;         // addi sp, sp, -16 (Adjust stack pointer by -16)
+    MEM[19] <= 32'hffe10113;         // addi sp, sp, -2 (Adjust stack pointer by -2)
     MEM[20] <= 32'h00118133;         // or r2, r3, r1   (Logical OR between r3 and r1, result in r2)
     MEM[21] <= 32'h40319133;         // neg r3, r2      (Negate r2 and store in r3)
     MEM[22] <= 32'h00210023;         // sb r2, 0(r2)    (Store byte from r2 at r2+0)
@@ -202,4 +202,3 @@ always @(posedge clk) begin
 end
 
 endmodule
-
