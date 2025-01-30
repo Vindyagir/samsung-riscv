@@ -4,7 +4,7 @@ reg clk, RN;
 wire [31:0] WB_OUT, NPC;
 
 // Instantiate the module under test
-iiitb_rv32i rv32(clk, RN, NPC, WB_OUT);
+sam_rv32i rv32(clk, RN, NPC, WB_OUT);
 
 // Clock generation
 always #3 clk = !clk;
