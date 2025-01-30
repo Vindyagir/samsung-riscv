@@ -2,29 +2,33 @@ module sam_rv32i_tb;
 
 reg clk, RN;
 wire [31:0] WB_OUT, NPC;
-
-// Instantiate the module under test
 sam_rv32i rv32(clk, RN, NPC, WB_OUT);
 
-// Clock generation
+// Generate clock signal with a period of 6 time units
 always #3 clk = !clk;
 
 initial begin 
-    // Initialize signals
+    // Initialize reset and clock
     RN  = 1'b1;
     clk = 1'b1;
 
-    // Enable waveform dump for simulation
-    $dumpfile("sam_rv32i.vcd"); // VCD file for waveform analysis
+    // Dump waveform for debugging
+    $dumpfile("sam_rv32i.vcd"); // Generate VCD waveform file
     $dumpvars(0, sam_rv32i_tb);
-    
-    // Release reset after some time
+  
+    // Apply reset and then release
     #5 RN = 1'b0;
-    
-    // Run simulation for a sufficient duration
-    #300 $finish;
+
+    // Run the simulation for 500 time units to observe results
+    #5000 $finish;
+end
+
+// Monitor output changes for debugging
+always @(posedge clk) begin
+    $display("Time: %0t | NPC: %h | WB_OUT: %h", $time, NPC, WB_OUT);
 end
 
 endmodule
+
 
 
