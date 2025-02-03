@@ -157,21 +157,20 @@ $  spike -d pk fact.o
 ### Here is the 15 unique RISCV instructions 
 - 1 
 ```
-lui a0,0x2b
+add r10, r1, r2
 ```
-> The RISC-V instruction format for `LUI` is **U-type** ,which is used to load an immediate value into the upper 20 bits of register 
-> The layout for a **U-type** instruction is as follows
->| imm[31:12] | rd | opcode |
->|------------|----|--------|
->| 20 bits | 5 bits | 7 bits |
+> The RISC-V instruction format for `add ` is **R-type** ,meaning it adds the values stored in register r1 and register r2 and stores the result in register r10.
+> The layout for a **R-type** instruction is as follows
+>| func7 | rs2 | rs1 | func3 | rd | opcode |
+>|-------|----|----|-------|-----|-------|
+>| 7 bits | 5 bits |5 bits |3 bits |5 bits | 7 bits |
 >
-> opcode for LUI : 0110111   
-> imm[31:12] (20 bits) : 00000010101100000000  
-> rd : a0 = 01010   
-> rs1 : this instruction doesn't use rs1  
-> rs2 : this instruction doesn't use rs2  
-> funct3 : N/A  
-> funct7 : N/A
+> opcode for LUI : 000000   
+> rd : r10 = 01010   
+> rt : 00001
+> rs2 : 00010 
+> funct3 : 00000 
+> funct7 : 100000
 
 ---
 #### 32-bit Instruction Encoding:00000010101100000000_01010_0110111
