@@ -461,3 +461,79 @@ auipc a5, 0xffff0
 
 ---
 #### 32-bit Instruction Encoding:1111111111111111_01111_0010111
+</details>
+<details>
+<summary> Task 4:Functional Simulation of RISC-V Core </summary>
+<br> 
+  
+ > - The task is to download the Verilog netlist and testbench for the RISC-V core. Set up a simulation environment using a suitable tool like Icarus Verilog or GTKWave, then load the netlist and testbench.           
+ > - Run the functional simulation to verify the core's correctness by observing the output signals. Capture and save waveform snapshots for the executed commands during the simulation.  
+ > - Finally, update your GitHub repository by uploading the simulation results, waveform snapshots, and a brief description of your work.
+
+## steps for the above task are as follows
+  ### step 1:
+- To install `iverilog` and `gtkwave` in terminal the command is as follows
+  ```
+  $ sudo apt get update
+  $ sudo apt get install iverilog gtkwave
+  ```
+  ### step 2:
+- save the files of verilog in the git hub repository and clone the same
+  ```
+  $ git clone https://github.com/Vindyagir/samsung-riscv
+  ```
+   ### step 3:
+- open the directory
+  ```
+  $ cd samsung-riscv
+  ```
+   ### step 4:
+- open verilog and testbench files using `nano` command
+  ```
+  $ nano sam_rv32i.v
+  $ nano sam_rv32i_tb.v
+  ```
+   ### step 5:
+- compile the verilog files using the commands 
+  ```
+  $ iverilog -o samsung-riscv sam_rv32i.v sam_rv32i_tb.v
+  $ ./samsung-riscv
+  ```
+   ### step 6:
+- the output waveform is observed using the following command
+  ```
+  $ gtkwave sam_rv32i.vcd
+  ```
+ - the below image is of the out put shown on terminal after running step 6 
+  ![Screenshot 2025-02-03 215243](https://github.com/user-attachments/assets/30326a5b-53c2-495c-9a1a-c001b3af9c12)
+---
+## Instructions are as follows:
+- ### add r10, r1,r2  //32'h02208500 ;
+   ![Screenshot 2025-01-30 152403](https://github.com/user-attachments/assets/4dc1fea5-b9ac-4697-a45f-acb8c394d193)
+
+- ### sub r11, r1,r3  //32'h02309680 ;
+  ![Screenshot 2025-01-30 152435](https://github.com/user-attachments/assets/773433b2-272b-4487-8e23-0789e1b7368e)
+
+- ### and r12, r2, r5  //32'h0250A700 ; 
+  ![Screenshot 2025-01-30 152502](https://github.com/user-attachments/assets/95893dab-938e-4089-84bc-523771d4ece5)
+
+- ### or r13, r3, r4  //32'h0241B500 ; 
+  ![Screenshot 2025-01-30 152528](https://github.com/user-attachments/assets/d7f80c57-a582-428b-bbdd-c0f44580031a)
+
+- ### xor r14, r3, r6  //32'h0260D500 ;
+  ![Screenshot 2025-01-30 152756](https://github.com/user-attachments/assets/12f985a3-52a3-4933-bb8f-98d409934c62)
+
+- ### slt r15, r2, r4  //32'h00415680;
+  ![Screenshot 2025-02-03 221742](https://github.com/user-attachments/assets/a912da84-050c-4cc6-85d9-d7f5a8513c9e)
+  
+- ### addi r16, r4, r6  //32'h00620801;
+  ![Screenshot 2025-01-30 153547](https://github.com/user-attachments/assets/9e472da3-b620-4245-954e-8e8c43ce0999)
+
+- ### sw r3, r1, r3  //32'h003091A1;
+  ![Screenshot 2025-01-30 153611](https://github.com/user-attachments/assets/1883130e-549f-47c0-b956-41ad8ab49745)
+
+- ### lw r17, r1 ,r3 //32'h003086A1
+  ![Screenshot 2025-01-30 153730](https://github.com/user-attachments/assets/64a58975-a8b7-4c1f-af49-41b2f8cc0685)
+
+- ### add r18, r2, r2 //32'h00210800
+  ![Screenshot 2025-01-30 153730](https://github.com/user-attachments/assets/e2688a0e-01c1-4df6-8198-a6674fc41b5a)
