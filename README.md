@@ -507,6 +507,25 @@ auipc a5, 0xffff0
  - the below image is of the out put shown on terminal after running step 6 
   ![Screenshot 2025-02-03 215243](https://github.com/user-attachments/assets/30326a5b-53c2-495c-9a1a-c001b3af9c12)
 ---
+## Instruction Memory Contents
+
+| Address  | Instruction Code | Assembly Instruction  | Description |
+|----------|----------------|----------------------|-------------|
+| MEM[0]   | 32'h02208500   | add r10, r1, r2      | Adds r1 and r2, stores result in r10 (modified instruction). |
+| MEM[1]   | 32'h02309680   | sub r11, r1, r3      | Subtracts r3 from r1, stores result in r11. |
+| MEM[2]   | 32'h025A7080   | and r12, r2, r5      | Performs bitwise AND between r2 and r5, stores result in r12. |
+| MEM[3]   | 32'h0241B500   | or r13, r3, r4       | Performs bitwise OR between r3 and r4, stores result in r13. |
+| MEM[4]   | 32'h02605000   | xor r14, r3, r6      | Performs bitwise XOR between r3 and r6, stores result in r14. |
+| MEM[5]   | 32'h00A45080   | slt r15, r2, r4      | Sets r15 to 1 if r2 < r4, else sets it to 0. |
+| MEM[6]   | 32'h00620081   | addi r16, r4, 6      | Adds immediate value 6 to r4, stores result in r16. |
+| MEM[7]   | 32'h003091A1   | sw r3, r1, 3         | Stores the value of r3 at memory address (r1 + 3). |
+| MEM[8]   | 32'h0030A3A1   | lw r17, r1, 3        | Loads a word from memory address (r1 + 3) into r17. |
+| MEM[9]   | 32'h00E00003   | beq r0, r0, 14       | Branches to PC + 14 if r0 == r0 (always true, acting as a jump). |
+| MEM[10]  | ~~32'h00A100B3~~ | ~~slt r1, r2, r10~~  | *(Commented out: would set r1 to 1 if r2 < r10, else 0.)* |
+| MEM[11]  | ~~32'h00210533~~ | ~~xor r10, r2, r2~~  | *(Commented out: would perform XOR on r2 with itself, always 0.)* |
+| MEM[20]  | 32'h00210800   | add r18, r2, r2      | Adds r2 to itself, stores result in r18 (doubles the value). |
+
+> **Note:** Commented-out instructions are displayed with strikethrough.
 ## Instructions are as follows:
 - ### add r10, r1,r2  //32'h02208500 ;
    ![Screenshot 2025-01-30 152403](https://github.com/user-attachments/assets/4dc1fea5-b9ac-4697-a45f-acb8c394d193)
@@ -537,3 +556,6 @@ auipc a5, 0xffff0
 
 - ### add r18, r2, r2 //32'h00210800
   ![Screenshot 2025-01-30 153730](https://github.com/user-attachments/assets/e2688a0e-01c1-4df6-8198-a6674fc41b5a)
+---
+- the below is the instruction verified
+ ![Screenshot 2025-02-03 202046](https://github.com/user-attachments/assets/d5d4ff6b-71a7-4f8e-af72-8c5187753b39)
