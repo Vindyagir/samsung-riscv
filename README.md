@@ -559,3 +559,80 @@ auipc a5, 0xffff0
 ---
 - the below is the instruction verified
  ![Screenshot 2025-02-03 202046](https://github.com/user-attachments/assets/d5d4ff6b-71a7-4f8e-af72-8c5187753b39)
+</details>
+<details>
+<summary> Task 5: Documentation of the project </summary>
+<br>
+
+> In Task 5, we enhance the repository for the Smart Location-Based Alarm 🔔 by updating essential documentation. This includes adding a project overview and listing the required components for building the application. We will replace the hand-drawn Pinout Diagram with a detailed visual in PowerPoint 📊 and include a Circuit Connection section with clear illustrations 🔌. Additionally, a structured table will provide comprehensive pin details, helping users better understand the project for effective implementation. Let's make this project as user-friendly and engaging as possible! 🌟
+
+## PROJECT NAME: SMART LOCATION-BASED ALARM
+### Project Overview: GPS-Based Alert System Using VSD Squadron Mini.        
+-  This project is a GPS-based alert system built using the VSD Squadron Mini development board. The system is designed to provide location-based notifications using a GPS module, a buzzer, and a push button. The GPS module continuously tracks the user's real-time location, and when a predefined location or geofence is reached, the buzzer activates to provide an audible alert. The push button allows the user to acknowledge or silence the alert manually. The entire system is powered by a rechargeable battery pack, ensuring portability and uninterrupted operation. The VSD Squadron Mini processes the GPS data, evaluates location conditions, and controls the buzzer based on programmed logic. This project can be applied in safety alerts, location-based reminders, or tracking systems for various real-world scenarios. 
+---
+## 📌 COMPONENTS & THEIR ROLES
+
+#### 1️⃣ GPS MODULE
+- **Function:** Tracks real-time location and sends data to the microcontroller.  
+
+#### 2️⃣ BUZZER
+- **Function:** Provides an audible alert when the device reaches a predefined location.  
+
+#### 3️⃣ PUSH BUTTON
+- **Function:** Saves the current location when pressed.  
+
+#### 4️⃣ BATTERY & CHARGING MODULE
+- **Function:** Powers the entire system and allows recharging.  
+
+#### 5️⃣ POWER SWITCH
+- **Function:** Controls power supply to the VSD Squadron Mini and peripherals.  
+---
+### 📌 Block Diagram
+```mermaid
+graph TD;
+    P[Push Button Pressed] --> M[Store Location in VSD Squadron Mini];
+    M --> G[GPS Module Fetches Current Location];
+    G --> C[Compare Current Location with Stored Location];
+
+    C -- YES --> B[Buzzer ON];
+    C -- NO --> T[Keep Tracking Location];
+    B --> PWR[Battery & Charger Provide Continuous Power] ;
+    T --> PWR;
+    PWR --> G;
+```
+---
+### CIRCUIT DIAGRAM:
+
+![Screenshot 2025-02-12 210614](https://github.com/user-attachments/assets/fea5029f-b7a5-45a9-b365-9721a14f1507)
+
+---
+
+### 📌 Pin Connections for smart location-based alarm system:
+
+#### 1️⃣ GPS Module
+- TX (GPS) → RX (PD6) [VSD Squadron Mini] 
+- RX (GPS) → TX (PD5) [VSD Squadron Mini] 
+- VCC (GPS) → 3.3V or 5V (Check GPS module spec) 
+- GND (GPS) → GND (VSD Squadron Mini)  
+
+#### 2️⃣ Buzzer
+- (Buzzer) + → GPIO (e.g., PA1) [VSD Squadron Mini] 
+- (Buzzer) - → GND [VSD Squadron Mini)] 
+
+##### 3️⃣ Push Button
+- One side → GPIO pin (e.g., PA2) [VSD Squadron Mini] 
+- Other side → GND 
+- (Optional) Pull-down resistor if needed  
+
+#### 4️⃣ Power Supply (Battery & Charging Module)
+- Battery + → B+ (Charging Module)  
+- Battery - → B- (Charging Module)
+- OUT+ (Charging Module) → Power switch input  
+- OUT- (Charging Module) → GND
+- Power switch output → 5V (VSD Squadron Mini) 
+
+#### 5️⃣ Power Switch
+- Middle terminal → OUT+ (Charging Module)  
+- One side → 5V input (VSD Squadron Mini, GPS, Buzzer) 
+- Other side (optional for control)
+---
