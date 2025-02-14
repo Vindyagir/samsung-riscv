@@ -603,7 +603,7 @@ graph TD;
 ---
 ### CIRCUIT DIAGRAM:
 
-![Screenshot 2025-02-12 210614](https://github.com/user-attachments/assets/fea5029f-b7a5-45a9-b365-9721a14f1507)
+               ![Screenshot 2025-02-12 210614](https://github.com/user-attachments/assets/fea5029f-b7a5-45a9-b365-9721a14f1507)
 
 ---
 
