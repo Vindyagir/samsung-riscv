@@ -567,7 +567,8 @@ auipc a5, 0xffff0
 > In Task 5, we enhance the repository for the Smart Location-Based Alarm 🔔 by updating essential documentation. This includes adding a project overview and listing the required components for building the application. We will replace the hand-drawn Pinout Diagram with a detailed visual in PowerPoint 📊 and include a Circuit Connection section with clear illustrations 🔌. Additionally, a structured table will provide comprehensive pin details, helping users better understand the project for effective implementation. Let's make this project as user-friendly and engaging as possible! 🌟
 
 ## PROJECT NAME: SMART LOCATION-BASED ALARM
-### Project Overview: GPS-Based Alert System Using VSD Squadron Mini.        
+### 📌 PROJECT OVERVIEW: GPS-BASED ALERT SYSTEM USING VSD SQUADRON MINI.
+        
 -  This project is a GPS-based alert system built using the VSD Squadron Mini development board. The system is designed to provide location-based notifications using a GPS module, a buzzer, and a push button. The GPS module continuously tracks the user's real-time location, and when a predefined location or geofence is reached, the buzzer activates to provide an audible alert. The push button allows the user to acknowledge or silence the alert manually. The entire system is powered by a rechargeable battery pack, ensuring portability and uninterrupted operation. The VSD Squadron Mini processes the GPS data, evaluates location conditions, and controls the buzzer based on programmed logic. This project can be applied in safety alerts, location-based reminders, or tracking systems for various real-world scenarios. 
 ---
 ## 📌 COMPONENTS & THEIR ROLES
@@ -587,7 +588,7 @@ auipc a5, 0xffff0
 #### 5️⃣ POWER SWITCH
 - **Function:** Controls power supply to the VSD Squadron Mini and peripherals.  
 ---
-### 📌 Block Diagram
+### 📌 BLOCK DIAGRAM:
 ```mermaid
 graph TD;
     P[Push Button Pressed] --> M[Store Location in VSD Squadron Mini];
@@ -601,38 +602,199 @@ graph TD;
     PWR --> G;
 ```
 ---
-### CIRCUIT DIAGRAM:
+### 📌 CIRCUIT DIAGRAM:
 
-               ![Screenshot 2025-02-12 210614](https://github.com/user-attachments/assets/fea5029f-b7a5-45a9-b365-9721a14f1507)
+  ![Screenshot 2025-02-12 210614](https://github.com/user-attachments/assets/fea5029f-b7a5-45a9-b365-9721a14f1507)
 
 ---
 
-### 📌 Pin Connections for smart location-based alarm system:
+### 📌PIN CONNECTIONS FOR SMART LOCATION-BASED ALARM SYSTEM:
 
-#### 1️⃣ GPS Module
-- TX (GPS) → RX (PD6) [VSD Squadron Mini] 
-- RX (GPS) → TX (PD5) [VSD Squadron Mini] 
-- VCC (GPS) → 3.3V or 5V (Check GPS module spec) 
-- GND (GPS) → GND (VSD Squadron Mini)  
+| **No.**   |**Component**               | **Pin on Component**          | **Connected To (VSD Squadron Mini / Other Modules)**      | **Notes** |
+|-----------|------------------|------------------------------|----------------------------------------------------------|-----------|
+| 1.        |**GPS Module**              | TX                            | RX (PD6)                                                 | GPS sends data to MCU |
+|  |                            | RX                            | TX (PD5)                                                 | MCU sends commands to GPS |
+|  |                           | VCC                           | 3.3V / 5V (Check module spec)                            | Power supply for GPS |
+|  |                          | GND                           | GND                                                      | Common ground |
+| 2.  |**Buzzer**                  | + (Positive)                  | GPIO (e.g., PA1)                                         | Can use PWM for sound control |
+|                             | - (Negative)                  | GND                                                      | Common ground |
+| 3.  |**Push Button**             | One Terminal                  | GPIO (e.g., PA2)                                         | Input signal |
+|   |                          | Other Terminal                | GND                                                      | Uses pull-up or pull-down resistor |
+| 4.  |**Battery & Charging Module** | Battery +                    | B+ (Charging Module)                                     | Connects to LiPo battery |   |
+|   |                          | Battery -                     | B- (Charging Module)                                     | Connects to LiPo battery |
+|   |                          | OUT+ (Power Output)           | Power Switch Input                                       | Supplies power to circuit |
+|   |                        | OUT- (Power Output)           | GND                                                      | Common ground |
+| 5. |**Power Switch**            | Middle Terminal               | OUT+ (Charging Module)                                   | Acts as ON/OFF control |
+|    |                         | One Side                      | 5V (VSD Squadron Mini, GPS, Buzzer)                     | Provides power to circuit |
+|     |                        | Other Side (Optional)         | Additional power control (if needed)                     | Optional connection |
 
-#### 2️⃣ Buzzer
-- (Buzzer) + → GPIO (e.g., PA1) [VSD Squadron Mini] 
-- (Buzzer) - → GND [VSD Squadron Mini)] 
-
-##### 3️⃣ Push Button
-- One side → GPIO pin (e.g., PA2) [VSD Squadron Mini] 
-- Other side → GND 
-- (Optional) Pull-down resistor if needed  
-
-#### 4️⃣ Power Supply (Battery & Charging Module)
-- Battery + → B+ (Charging Module)  
-- Battery - → B- (Charging Module)
-- OUT+ (Charging Module) → Power switch input  
-- OUT- (Charging Module) → GND
-- Power switch output → 5V (VSD Squadron Mini) 
-
-#### 5️⃣ Power Switch
-- Middle terminal → OUT+ (Charging Module)  
-- One side → 5V input (VSD Squadron Mini, GPS, Buzzer) 
-- Other side (optional for control)
 ---
+</details>
+<details>
+<summary> Task 6: Application demo </summary>
+<br>
+  
+### 📌CODE:
+
+```cpp
+#include <ch32v00x.h>
+#include <debug.h>
+#include <TinyGPS++.h>
+#include <SoftwareSerial.h>
+#include <Servo.h>
+
+// ✅ Define GPS module connection pins (matching wiring)
+#define GPS_TX PD6  // TX of GPS → RX of VSD Squadron Mini
+#define GPS_RX PD5  // RX of GPS → TX of VSD Squadron Mini
+SoftwareSerial gpsSerial(GPS_TX, GPS_RX);
+TinyGPSPlus gps;
+
+// ✅ Define ultrasonic sensor pins (if needed)
+#define TRIG_PIN PD4
+#define ECHO_PIN PD5
+
+// ✅ Define servo motor pin
+#define SERVO_PIN PD6
+Servo servoMotor;
+
+// ✅ Define buzzer pin
+#define BUZZER_PIN PA1
+
+// ✅ Define push button pins
+#define SET_BUTTON PA2
+#define RESET_BUTTON PA3
+
+// ✅ Predefined alert location (Example: GLOBAL ACADEMY OF TECHNOLOGY)
+float targetLatitude = 12.9268;
+float targetLongitude = 77.5267;
+float locationThreshold = 0.0009;  // Approx. 100m threshold
+
+// ✅ Store user-set location
+float userLatitude = 0;
+float userLongitude = 0;
+bool locationSet = false;
+
+// ✅ Function Prototypes
+void checkLocation(float currentLat, float currentLon, float targetLat, float targetLon);
+void activateAlert();
+void setUserLocation();
+void resetUserLocation();
+
+void setup() {
+    SystemCoreClockUpdate();
+    Delay_Init();
+
+    // ✅ Configure GPIO pins
+    GPIO_InitTypeDef GPIO_InitStructure = {0};
+    
+    // Output pins (Buzzer, Servo, etc.)
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Pin = BUZZER_PIN | SERVO_PIN;
+    GPIO_Init(GPIOD, &GPIO_InitStructure);
+
+    // Input pins (Push buttons)
+    GPIO_InitStructure.GPIO_Pin = SET_BUTTON | RESET_BUTTON;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;  // Internal pull-up
+    GPIO_Init(GPIOD, &GPIO_InitStructure);
+
+    // ✅ Initialize peripherals
+    servoMotor.attach(SERVO_PIN);
+    servoMotor.write(0);  // Default position
+    gpsSerial.begin(9600);
+}
+
+void loop() {
+    // ✅ Read GPS data
+    while (gpsSerial.available() > 0) {
+        gps.encode(gpsSerial.read());
+        if (gps.location.isUpdated()) {
+            float currentLat = gps.location.lat();
+            float currentLon = gps.location.lng();
+            debug_printf("Lat: %f, Lon: %f\n", currentLat, currentLon);
+
+            // ✅ Check against stored location
+            if (locationSet) {
+                checkLocation(currentLat, currentLon, userLatitude, userLongitude);
+            } else {
+                checkLocation(currentLat, currentLon, targetLatitude, targetLongitude);
+            }
+        }
+    }
+
+    // ✅ Check button presses (Debounced)
+    if (GPIO_ReadInputDataBit(GPIOD, SET_BUTTON) == 0) {
+        Delay_Ms(200);  // Simple debounce delay
+        if (GPIO_ReadInputDataBit(GPIOD, SET_BUTTON) == 0) {
+            setUserLocation();
+        }
+    }
+
+    if (GPIO_ReadInputDataBit(GPIOD, RESET_BUTTON) == 0) {
+        Delay_Ms(200);  // Simple debounce delay
+        if (GPIO_ReadInputDataBit(GPIOD, RESET_BUTTON) == 0) {
+            resetUserLocation();
+        }
+    }
+}
+
+// ✅ Function to check if the current location is near the target location
+void checkLocation(float currentLat, float currentLon, float targetLat, float targetLon) {
+    if (fabs(currentLat - targetLat) < locationThreshold && fabs(currentLon - targetLon) < locationThreshold) {
+        activateAlert();
+    }
+}
+
+// ✅ Function to activate the buzzer and servo when the location is reached
+void activateAlert() {
+    GPIO_WriteBit(GPIOD, BUZZER_PIN, Bit_SET);
+    for (int i = 0; i < 3; i++) {
+        servoMotor.write(90);
+        Delay_Ms(500);
+        servoMotor.write(0);
+        Delay_Ms(500);
+    }
+    GPIO_WriteBit(GPIOD, BUZZER_PIN, Bit_RESET);
+}
+
+// ✅ Function to store the current GPS location
+void setUserLocation() {
+    if (gps.location.isValid()) {
+        userLatitude = gps.location.lat();
+        userLongitude = gps.location.lng();
+        locationSet = true;
+        debug_printf("User location set!\n");
+    }
+}
+
+// ✅ Function to reset stored location
+void resetUserLocation() {
+    locationSet = false;
+    debug_printf("User location reset!\n");
+}
+
+```
+---
+### 📌 DEMONSTRATION VEDIO
+
+---
+### 📌 CONCLUSION
+
+This project successfully demonstrates a **GPS-based alert system** using the **VSD Squadron Mini** development board. The system effectively **tracks real-time location**, compares it with a predefined or user-set target, and triggers an **alert (buzzer and servo movement) when the device reaches the specified location**.
+
+The integration of **GPS, push buttons, buzzer, servo, and battery power** ensures a **portable and autonomous system** that can be used for various real-world applications, such as **location-based reminders, restricted zone alerts, and personal safety tracking**.
+
+### 🔹 **Key Achievements**
+- ✅ **Accurate location tracking** using the GPS module.  
+- ✅ **User-defined location storage** via push button input.  
+- ✅ **Automated alert activation** when within the set location threshold.  
+- ✅ **Reliable power management** with a battery and charging module.  
+- ✅ **Optimized code and logic** for efficient operation.  
+
+### 🔹 **Future Enhancements**
+🚀 **Improve GPS Accuracy** – Use **Kalman filtering** to smooth location variations.  
+🚀 **OLED Display Integration** – Show real-time GPS coordinates and alerts.  
+🚀 **Wireless Connectivity** – Send alerts via **WiFi (ESP8266) or Bluetooth (HC-05)**.  
+🚀 **Mobile App Integration** – Track location alerts on a smartphone.  
+
+This project lays the **foundation for advanced location-based automation** and can be expanded into **smart transportation, safety monitoring, and geofencing applications**.
