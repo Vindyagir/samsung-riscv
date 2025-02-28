@@ -772,7 +772,8 @@ https://drive.google.com/file/d/1fJB9QRbZFkkyLGUMGoW5_Gg1JqPJzU7Y/view?usp=drive
 
 ---
 #### 📌 After detection of gas
-![beforimg](https://github.com/user-attachments/assets/9a675d70-89be-4d49-9e48-5c848e6eb032)
+![beforeimg](https://github.com/user-attachments/assets/6546e587-c37e-4562-ba3a-c8d6aa9efebd)
+
 
 ---
 ### 📌 CONCLUSION
