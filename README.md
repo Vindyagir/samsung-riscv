@@ -626,7 +626,7 @@ graph TD;
 <summary> Task 6: Application demo </summary>
 <br>
   
-### 📌CODE: 🚨 GAS ALERTING SECURITY DEVICE USING VSD SQUADRON MINI ⚡
+### 📌CODE: GAS ALERTING SECURITY DEVICE USING VSD SQUADRON MINI🚨⚡
 
 ```cpp
 #include <ch32v00x.h>
@@ -768,11 +768,11 @@ https://drive.google.com/file/d/1fJB9QRbZFkkyLGUMGoW5_Gg1JqPJzU7Y/view?usp=drive
 ---
 ### 📌 CONCLUSION
 
-This project successfully demonstrates a **GPS-based alert system** using the **VSD Squadron Mini** development board. The system effectively **tracks real-time location**, compares it with a predefined or user-set target, and triggers an **alert (buzzer and servo movement) when the device reaches the specified location**.
+The Gas Alerting Security Device using the **VSD Squadron Mini provides** a reliable solution for detecting hazardous gas leaks. By integrating the VSD Squadron Mini with the MQ-2 gas sensor, LED indicators, and a buzzer alarm, this system ensures quick alerts for dangerous gas concentrations. Its compact design and effective performance make the VSD Squadron Mini an integral part of this cost-effective project, suitable for both residential and industrial safety applications. With real-time monitoring and instant alerts, it serves as an essential safety tool.
 
-The integration of **GPS, push buttons, buzzer, servo, and battery power** ensures a **portable and autonomous system** that can be used for various real-world applications, such as **location-based reminders, restricted zone alerts, and personal safety tracking**.
+The integration of **MQ-2, VSD Squadron mini, LED'S** ensures a **portable and autonomous system** that can be used for various real-world applications.
 
-### 🚀 Key Features:
+###  📌 Key Features:
 ✅ Intelligent Gas Sensing – Detects LPG, propane, methane, and smoke in real time using the MQ-2 sensor.
 
 🔔 Instant Alert System – Triggers a buzzer and LED when gas levels exceed the safety threshold.
@@ -785,10 +785,13 @@ The integration of **GPS, push buttons, buzzer, servo, and battery power** ensur
 
 🏠 Versatile Application – Ideal for home safety, industrial security, and smart monitoring solutions.
 
-### 🔹 **Future Enhancements**
-🚀 **Improve GPS Accuracy** – Use **Kalman filtering** to smooth location variations.  
-🚀 **OLED Display Integration** – Show real-time GPS coordinates and alerts.  
-🚀 **Wireless Connectivity** – Send alerts via **WiFi (ESP8266) or Bluetooth (HC-05)**.  
-🚀 **Mobile App Integration** – Track location alerts on a smartphone.  
+### 📌 Future Enhancements
+-🔹 Wireless Connectivity (IoT Integration) – Implementing Wi-Fi or Bluetooth to send real-time alerts via a mobile app .     
+-🔹 LCD/OLED Display – Adding a display screen to show real-time gas levels for better monitoring.      
+-🔹 Battery Backup – Ensuring the system remains active even during power failures.     
+-🔹 Multiple Gas Detection – Enhancing the sensor to detect other harmful gases like carbon monoxide (CO) and methane (CH4).    
+-🔹 Smart Home Integration – Connecting the system to smart home networks for automated actions, like turning off gas valves when leaks are detected.    
+-🔹 Cloud Data Logging – Storing gas concentration readings over time for safety analysis and predictive maintenance.    
 
-This project lays the **foundation for advanced location-based automation** and can be expanded into **smart transportation, safety monitoring, and geofencing applications**.
+These enhancements will make the system more advanced, user-friendly, and effective in preventing gas-related accidents. 🚀 
+
