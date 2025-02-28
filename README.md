@@ -766,6 +766,15 @@ void delay_ms(uint32_t ms) {
 ### 📌 DEMONSTRATION VEDIO
 https://drive.google.com/file/d/1fJB9QRbZFkkyLGUMGoW5_Gg1JqPJzU7Y/view?usp=drive_link
 ---
+#### 📌 Before detection of gas
+
+![beforimg](https://github.com/user-attachments/assets/768d6910-c768-49c4-91eb-2527e337d87b)
+
+---
+#### 📌 After detection of gas
+![beforimg](https://github.com/user-attachments/assets/9a675d70-89be-4d49-9e48-5c848e6eb032)
+
+---
 ### 📌 CONCLUSION
 
 The Gas Alerting Security Device using the **VSD Squadron Mini provides** a reliable solution for detecting hazardous gas leaks. By integrating the VSD Squadron Mini with the MQ-2 gas sensor, LED indicators, and a buzzer alarm, this system ensures quick alerts for dangerous gas concentrations. Its compact design and effective performance make the VSD Squadron Mini an integral part of this cost-effective project, suitable for both residential and industrial safety applications. With real-time monitoring and instant alerts, it serves as an essential safety tool.
