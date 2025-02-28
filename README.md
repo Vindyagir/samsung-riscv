@@ -585,9 +585,9 @@ auipc a5, 0xffff0
      - Connects components.    
 7️⃣ PlatformIO:
      - Development environment for writing and uploading code.
- 
+
+ ---
 ### 📌 BLOCK DIAGRAM:
-      ## 📊 Functional Block Diagram  
 
 ```mermaid
 graph TD;
@@ -603,8 +603,10 @@ graph TD;
     G --> C
 
 ```
+---
 ### 📌 CIRCUIT DIAGRAM:
 
+![Screenshot 2025-03-01 021252](https://github.com/user-attachments/assets/ac9deeb8-cfcd-4a05-a97e-a7e030be8985)
  
 
 ---
