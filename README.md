@@ -564,69 +564,61 @@ auipc a5, 0xffff0
 <summary> Task 5: Documentation of the project </summary>
 <br>
 
-> In Task 5, we enhance the repository for the Smart Location-Based Alarm 🔔 by updating essential documentation. This includes adding a project overview and listing the required components for building the application. We will replace the hand-drawn Pinout Diagram with a detailed visual in PowerPoint 📊 and include a Circuit Connection section with clear illustrations 🔌. Additionally, a structured table will provide comprehensive pin details, helping users better understand the project for effective implementation. Let's make this project as user-friendly and engaging as possible! 🌟
+>  This project is a Gas Alerting Security Device built using the VSD Squadron Mini development board. The system detects gas leaks using an MQ2 gas sensor and triggers an alert mechanism using an LED indicator and a buzzer. The device is programmed using PlatformIO and is designed to provide a real-time alert for hazardous gas levels.
 
-## PROJECT NAME: SMART LOCATION-BASED ALARM
-### 📌 PROJECT OVERVIEW: GPS-BASED ALERT SYSTEM USING VSD SQUADRON MINI.
-        
--  This project is a GPS-based alert system built using the VSD Squadron Mini development board. The system is designed to provide location-based notifications using a GPS module, a buzzer, and a push button. The GPS module continuously tracks the user's real-time location, and when a predefined location or geofence is reached, the buzzer activates to provide an audible alert. The push button allows the user to acknowledge or silence the alert manually. The entire system is powered by a rechargeable battery pack, ensuring portability and uninterrupted operation. The VSD Squadron Mini processes the GPS data, evaluates location conditions, and controls the buzzer based on programmed logic. This project can be applied in safety alerts, location-based reminders, or tracking systems for various real-world scenarios. 
+## PROJECT NAME: # 🚨 GAS ALERTING SECURITY DEVICE USING VSD SQUADRON MINI ⚡
+### 📌 PROJECT OVERVIEW:🔥 Detect Gas Before It’s Too Late! Smart Security with Instant Alerts. 🚨"
+- This project is designed to establish a comprehensive gas alert security system that utilizes the MQ-2 gas sensor along with the VSD Squadron Mini Board to effectively detect a range of hazardous gases. These gases include, but are not limited to, LPG (liquefied petroleum gas), propane, methane, and smoke, all of which can pose significant risks to safety in various environments. The primary function of this system is to monitor gas concentrations continuously, and when these levels exceed a specified threshold, the system promptly activates its alert mechanism. This alert mechanism may incorporate several components, such as a loud buzzer alarm to draw immediate attention, as well as LED indicators that signal the presence of danger through visual means. Additionally, the system is capable of establishing communication with external devices, further enhancing its utility. This capability makes it a versatile solution for safety alerts across numerous real-world situations, ensuring that individuals can receive timely warnings in environments where hazardous gases may be present, thereby preventing accidents and ensuring a higher level of safety for all users.
 ---
-## 📌 COMPONENTS & THEIR ROLES
-
-#### 1️⃣ GPS MODULE
-- **Function:** Tracks real-time location and sends data to the microcontroller.  
-
-#### 2️⃣ BUZZER
-- **Function:** Provides an audible alert when the device reaches a predefined location.  
-
-#### 3️⃣ PUSH BUTTON
-- **Function:** Saves the current location when pressed.  
-
-#### 4️⃣ BATTERY & CHARGING MODULE
-- **Function:** Powers the entire system and allows recharging.  
-
-#### 5️⃣ POWER SWITCH
-- **Function:** Controls power supply to the VSD Squadron Mini and peripherals.  
----
+### 📌 Components Used   
+1️⃣ VSD Squadron Mini Board: 
+     - Microcontroller for processing sensor data and triggering alerts.   
+2️⃣ MQ-2 Gas Sensor:  
+     - Detects LPG, propane, methane, and smoke.         
+3️⃣ Breadboard:   
+     - For easy circuit prototyping.           
+4️⃣ Buzzer:   
+     - Sounds an alarm when gas levels exceed the threshold.        
+5️⃣ LED Indicators (Red & Green):   
+     - Displays system status (safe/danger).       
+6️⃣ Jumper Wires:    
+     - Connects components.    
+7️⃣ PlatformIO:
+     - Development environment for writing and uploading code.
+ 
 ### 📌 BLOCK DIAGRAM:
+      ## 📊 Functional Block Diagram  
+
 ```mermaid
 graph TD;
-    P[Push Button Pressed] --> M[Store Location in VSD Squadron Mini];
-    M --> G[GPS Module Fetches Current Location];
-    G --> C[Compare Current Location with Stored Location];
+    A[System Initialization] --> B[Setup GPIO, ADC, and UART]
+    B --> C[Read Gas Sensor Value]
+    C --> D{Gas Level > 300?}
 
-    C -- YES --> B[Buzzer ON];
-    C -- NO --> T[Keep Tracking Location];
-    B --> PWR[Battery & Charger Provide Continuous Power] ;
-    T --> PWR;
-    PWR --> G;
+    D -- No --> E[Safe Mode: Green LED ON, Red LED OFF, Buzzer OFF]
+    D -- Yes --> F[Alert Mode: Red LED ON, Green LED OFF, Buzzer ON]
+
+    E --> G[Delay 1s and Repeat]
+    F --> G[Delay 1s and Repeat]
+    G --> C
+
 ```
----
 ### 📌 CIRCUIT DIAGRAM:
 
-  ![Screenshot 2025-02-12 210614](https://github.com/user-attachments/assets/fea5029f-b7a5-45a9-b365-9721a14f1507)
+ 
 
 ---
 
 ### 📌PIN CONNECTIONS FOR SMART LOCATION-BASED ALARM SYSTEM:
 
-| **No.**   |**Component**               | **Pin on Component**          | **Connected To (VSD Squadron Mini / Other Modules)**      | **Notes** |
-|-----------|------------------|------------------------------|----------------------------------------------------------|-----------|
-| 1.        |**GPS Module**              | TX                            | RX (PD6)                                                 | GPS sends data to MCU |
-|  |                            | RX                            | TX (PD5)                                                 | MCU sends commands to GPS |
-|  |                           | VCC                           | 3.3V / 5V (Check module spec)                            | Power supply for GPS |
-|  |                          | GND                           | GND                                                      | Common ground |
-| 2.  |**Buzzer**                  | + (Positive)                  | GPIO (e.g., PA1)                                         | Can use PWM for sound control |
-|                             | - (Negative)                  | GND                                                      | Common ground |
-| 3.  |**Push Button**             | One Terminal                  | GPIO (e.g., PA2)                                         | Input signal |
-|   |                          | Other Terminal                | GND                                                      | Uses pull-up or pull-down resistor |
-| 4.  |**Battery & Charging Module** | Battery +                    | B+ (Charging Module)                                     | Connects to LiPo battery |   |
-|   |                          | Battery -                     | B- (Charging Module)                                     | Connects to LiPo battery |
-|   |                          | OUT+ (Power Output)           | Power Switch Input                                       | Supplies power to circuit |
-|   |                        | OUT- (Power Output)           | GND                                                      | Common ground |
-| 5. |**Power Switch**            | Middle Terminal               | OUT+ (Charging Module)                                   | Acts as ON/OFF control |
-|    |                         | One Side                      | 5V (VSD Squadron Mini, GPS, Buzzer)                     | Provides power to circuit |
-|     |                        | Other Side (Optional)         | Additional power control (if needed)                     | Optional connection |
+| **Component**       | **VSD Squadron Mini Pin** | **Function**                             | **Additional Notes**                |
+|-------------------|------------------------|--------------------------------|--------------------------------|
+| **MQ-2 Sensor**    | VCC → 5V               | Power supply                     | Connect to 5V pin               |
+|                   | GND → GND               | Ground                           | Common ground connection        |
+|                   | Ao → PA1                | Analog gas output                | Reads gas concentration level   |
+| **Red LED**        | PD1                     | Gas alert indicator              | Needs a 220Ω resistor           |
+| **Green LED**      | PD2                     | Safe environment indicator       | Needs a 220Ω resistor           |
+| **Buzzer**        | PC0                     | Sound alarm for gas detection    | Activates when gas detected     |
 
 ---
 </details>
@@ -634,149 +626,145 @@ graph TD;
 <summary> Task 6: Application demo </summary>
 <br>
   
-### 📌CODE:
+### 📌CODE: 🚨 GAS ALERTING SECURITY DEVICE USING VSD SQUADRON MINI ⚡
 
 ```cpp
 #include <ch32v00x.h>
-#include <debug.h>
-#include <TinyGPS++.h>
-#include <SoftwareSerial.h>
-#include <Servo.h>
+#include <stdio.h>
 
-// ✅ Define GPS module connection pins (matching wiring)
-#define GPS_TX PD6  // TX of GPS → RX of VSD Squadron Mini
-#define GPS_RX PD5  // RX of GPS → TX of VSD Squadron Mini
-SoftwareSerial gpsSerial(GPS_TX, GPS_RX);
-TinyGPSPlus gps;
+// Define GPIO pins
+#define GAS_SENSOR_PIN GPIO_Pin_1  // PA1 (Analog input)
+#define RED_LED_PIN GPIO_Pin_1     // PD1
+#define GREEN_LED_PIN GPIO_Pin_2   // PD2 
+#define BUZZER_PIN GPIO_Pin_0      // PC0
 
-// ✅ Define ultrasonic sensor pins (if needed)
-#define TRIG_PIN PD4
-#define ECHO_PIN PD5
+// Function prototypes
+void setupGPIO();
+void setupADC();
+void setupUART();
+uint16_t readGasSensor();
+void uartPrint(const char *str);
+void delay_ms(uint32_t ms);
 
-// ✅ Define servo motor pin
-#define SERVO_PIN PD6
-Servo servoMotor;
+int main() {
+    SystemInit();
+    setupGPIO();
+    setupADC();
+    setupUART();
 
-// ✅ Define buzzer pin
-#define BUZZER_PIN PA1
+    uartPrint("System Initialized\r\n");
 
-// ✅ Define push button pins
-#define SET_BUTTON PA2
-#define RESET_BUTTON PA3
+    while (1) {
+        uint16_t gasValue = readGasSensor();
+        
+        // Convert ADC value to string and print via UART
+        char buffer[50];
+        sprintf(buffer, "Gas Sensor Value: %d\r\n", gasValue);
+        uartPrint(buffer);
 
-// ✅ Predefined alert location (Example: GLOBAL ACADEMY OF TECHNOLOGY)
-float targetLatitude = 12.9268;
-float targetLongitude = 77.5267;
-float locationThreshold = 0.0009;  // Approx. 100m threshold
+        // Gas threshold logic
+        if (gasValue > 300) {  
+            GPIO_SetBits(GPIOD, RED_LED_PIN);   // Red LED ON
+            GPIO_ResetBits(GPIOD, GREEN_LED_PIN); // Green LED OFF
+            GPIO_SetBits(GPIOC, BUZZER_PIN);    // Buzzer ON
+            uartPrint("ALERT! Gas Detected!\r\n");
+        } else {
+            GPIO_SetBits(GPIOD, GREEN_LED_PIN);  // Green LED ON
+            GPIO_ResetBits(GPIOD, RED_LED_PIN);  // Red LED OFF
+            GPIO_ResetBits(GPIOC, BUZZER_PIN);   // Buzzer OFF
+            uartPrint("Safe Environment\r\n");
+        }
 
-// ✅ Store user-set location
-float userLatitude = 0;
-float userLongitude = 0;
-bool locationSet = false;
+        delay_ms(1000);  // Wait 1 second before next reading
+    }
+}
 
-// ✅ Function Prototypes
-void checkLocation(float currentLat, float currentLon, float targetLat, float targetLon);
-void activateAlert();
-void setUserLocation();
-void resetUserLocation();
+// Setup GPIO for LEDs and Buzzer
+void setupGPIO() {
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD | RCC_APB2Periph_GPIOC, ENABLE);
 
-void setup() {
-    SystemCoreClockUpdate();
-    Delay_Init();
-
-    // ✅ Configure GPIO pins
-    GPIO_InitTypeDef GPIO_InitStructure = {0};
-    
-    // Output pins (Buzzer, Servo, etc.)
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+    GPIO_InitTypeDef GPIO_InitStructure;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_InitStructure.GPIO_Pin = BUZZER_PIN | SERVO_PIN;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+
+    // Configure LED pins
+    GPIO_InitStructure.GPIO_Pin = RED_LED_PIN | GREEN_LED_PIN;
     GPIO_Init(GPIOD, &GPIO_InitStructure);
 
-    // Input pins (Push buttons)
-    GPIO_InitStructure.GPIO_Pin = SET_BUTTON | RESET_BUTTON;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;  // Internal pull-up
-    GPIO_Init(GPIOD, &GPIO_InitStructure);
-
-    // ✅ Initialize peripherals
-    servoMotor.attach(SERVO_PIN);
-    servoMotor.write(0);  // Default position
-    gpsSerial.begin(9600);
+    // Configure Buzzer pin
+    GPIO_InitStructure.GPIO_Pin = BUZZER_PIN;
+    GPIO_Init(GPIOC, &GPIO_InitStructure);
 }
 
-void loop() {
-    // ✅ Read GPS data
-    while (gpsSerial.available() > 0) {
-        gps.encode(gpsSerial.read());
-        if (gps.location.isUpdated()) {
-            float currentLat = gps.location.lat();
-            float currentLon = gps.location.lng();
-            debug_printf("Lat: %f, Lon: %f\n", currentLat, currentLon);
+// Setup ADC for MQ-2 Sensor
+void setupADC() {
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);
 
-            // ✅ Check against stored location
-            if (locationSet) {
-                checkLocation(currentLat, currentLon, userLatitude, userLongitude);
-            } else {
-                checkLocation(currentLat, currentLon, targetLatitude, targetLongitude);
-            }
-        }
-    }
+    ADC_InitTypeDef ADC_InitStructure;
+    ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;
+    ADC_InitStructure.ADC_ContinuousConvMode = ENABLE;
+    ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;
+    ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
+    ADC_InitStructure.ADC_NbrOfChannel = 1;
+    ADC_Init(ADC1, &ADC_InitStructure);
 
-    // ✅ Check button presses (Debounced)
-    if (GPIO_ReadInputDataBit(GPIOD, SET_BUTTON) == 0) {
-        Delay_Ms(200);  // Simple debounce delay
-        if (GPIO_ReadInputDataBit(GPIOD, SET_BUTTON) == 0) {
-            setUserLocation();
-        }
-    }
+    // Configure PA1 as ADC Channel 1
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_1, 1, ADC_SampleTime_43Cycles);
+    ADC_Cmd(ADC1, ENABLE);
 
-    if (GPIO_ReadInputDataBit(GPIOD, RESET_BUTTON) == 0) {
-        Delay_Ms(200);  // Simple debounce delay
-        if (GPIO_ReadInputDataBit(GPIOD, RESET_BUTTON) == 0) {
-            resetUserLocation();
-        }
-    }
+    // Start ADC Calibration
+    ADC_StartCalibration(ADC1);
+    while (ADC_GetCalibrationStatus(ADC1) != RESET);
 }
 
-// ✅ Function to check if the current location is near the target location
-void checkLocation(float currentLat, float currentLon, float targetLat, float targetLon) {
-    if (fabs(currentLat - targetLat) < locationThreshold && fabs(currentLon - targetLon) < locationThreshold) {
-        activateAlert();
-    }
+// Read gas sensor value from ADC
+uint16_t readGasSensor() {
+    ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+    while (ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC) == RESET);
+    return ADC_GetConversionValue(ADC1);
 }
 
-// ✅ Function to activate the buzzer and servo when the location is reached
-void activateAlert() {
-    GPIO_WriteBit(GPIOD, BUZZER_PIN, Bit_SET);
-    for (int i = 0; i < 3; i++) {
-        servoMotor.write(90);
-        Delay_Ms(500);
-        servoMotor.write(0);
-        Delay_Ms(500);
-    }
-    GPIO_WriteBit(GPIOD, BUZZER_PIN, Bit_RESET);
+// Setup UART for debugging
+void setupUART() {
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_USART1, ENABLE);
+
+    GPIO_InitTypeDef GPIO_InitStructure;
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;  // TX (PA9)
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOA, &GPIO_InitStructure);
+
+    USART_InitTypeDef USART_InitStructure;
+    USART_InitStructure.USART_BaudRate = 9600;
+    USART_InitStructure.USART_WordLength = USART_WordLength_8b;
+    USART_InitStructure.USART_StopBits = USART_StopBits_1;
+    USART_InitStructure.USART_Parity = USART_Parity_No;
+    USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
+    USART_InitStructure.USART_Mode = USART_Mode_Tx;
+    USART_Init(USART1, &USART_InitStructure);
+    
+    USART_Cmd(USART1, ENABLE);
 }
 
-// ✅ Function to store the current GPS location
-void setUserLocation() {
-    if (gps.location.isValid()) {
-        userLatitude = gps.location.lat();
-        userLongitude = gps.location.lng();
-        locationSet = true;
-        debug_printf("User location set!\n");
+// Send text via UART
+void uartPrint(const char *str) {
+    while (*str) {
+        while (USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET);
+        USART_SendData(USART1, *str++);
     }
 }
 
-// ✅ Function to reset stored location
-void resetUserLocation() {
-    locationSet = false;
-    debug_printf("User location reset!\n");
+// Delay function
+void delay_ms(uint32_t ms) {
+    for (uint32_t i = 0; i < ms * 800; i++) {
+        __asm__("nop");
+    }
 }
 
 ```
 ---
 ### 📌 DEMONSTRATION VEDIO
-
+https://drive.google.com/file/d/1fJB9QRbZFkkyLGUMGoW5_Gg1JqPJzU7Y/view?usp=drive_link
 ---
 ### 📌 CONCLUSION
 
@@ -784,12 +772,18 @@ This project successfully demonstrates a **GPS-based alert system** using the **
 
 The integration of **GPS, push buttons, buzzer, servo, and battery power** ensures a **portable and autonomous system** that can be used for various real-world applications, such as **location-based reminders, restricted zone alerts, and personal safety tracking**.
 
-### 🔹 **Key Achievements**
-- ✅ **Accurate location tracking** using the GPS module.  
-- ✅ **User-defined location storage** via push button input.  
-- ✅ **Automated alert activation** when within the set location threshold.  
-- ✅ **Reliable power management** with a battery and charging module.  
-- ✅ **Optimized code and logic** for efficient operation.  
+### 🚀 Key Features:
+✅ Intelligent Gas Sensing – Detects LPG, propane, methane, and smoke in real time using the MQ-2 sensor.
+
+🔔 Instant Alert System – Triggers a buzzer and LED when gas levels exceed the safety threshold.
+
+📊 Live Monitoring – Continuously processes gas concentration data for reliable detection.
+
+🛠️ Powered by VSD Squadron Mini – Efficiently handles sensor input, alert mechanisms, and future expansions.
+
+📡 Customizable & Scalable – Easily integrates with wireless modules for remote alerts or IoT-based notifications.
+
+🏠 Versatile Application – Ideal for home safety, industrial security, and smart monitoring solutions.
 
 ### 🔹 **Future Enhancements**
 🚀 **Improve GPS Accuracy** – Use **Kalman filtering** to smooth location variations.  
