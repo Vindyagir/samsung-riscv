@@ -1,3 +1,9 @@
+## Task List
+1. [Task 1](task1/)
+2. [Task 2](task2/)
+3. [Task 3](task%203/)
+4. [Task 4](task%204/)
+
 # samsung-riscv
 ## Hosted by
 Global Academy of Technology, Electronics and Communication Engineering Department, in collaboration with **VLSI System Design** and the **Tech Connect Club**.
